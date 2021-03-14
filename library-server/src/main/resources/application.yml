@@ -1,0 +1,25 @@
+#数据库连接信息
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://192.168.37.130:3306/library_web?useUnicode=true&useSSL=false&characterEncoding=utf8&serverTimezone=Asia/Shanghai
+    username: root
+    password: 123456
+
+  devtools:
+    restart:
+      enabled: true  #设置开启热部署
+
+server:
+  port: 8181
+
+logging:
+  level:
+    com.kickshaw.mapper: debug
+# MyBatis-Plus配置
+mybatis-plus:
+  # 配置mapper的扫描，找到所有的mapper.xml映射文件
+  mapper-locations: classpath*:mapper/*Mapper.xml
+  # 搜索指定包别名
+  type-aliases-package: com.kickshaw.entity
+
