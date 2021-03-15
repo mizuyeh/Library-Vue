@@ -5,23 +5,22 @@
       <el-form :model="queryParams" ref="queryParams" :inline="true" label-width="68px">
         <el-form-item label="用户名称" prop="userName">
           <el-input
-              v-model="queryParams.userName"
-              placeholder="请输入用户名称"
-              clearable
-              size="small"
-              style="width: 240px"
-              @keyup.enter.native="handleQuery"
+            v-model="queryParams.userName"
+            placeholder="请输入用户名称"
+            clearable
+            size="small"
+            style="width: 240px"
+            @keyup.enter.native="handleQuery"
             />
         </el-form-item>
         <el-form-item label="手机号码" prop="mobile">
           <el-input
-              v-model="queryParams.mobile"
-              placeholder="请输入手机号码"
-              clearable
-              :mode="queryParams.mobile"
-              size="small"
-              style="width: 240px"
-              @keyup.enter.native="handleQuery"
+            v-model="queryParams.mobile"
+            placeholder="请输入手机号码"
+            clearable
+            size="small"
+            style="width: 240px"
+            @keyup.enter.native="handleQuery"
             />
         </el-form-item>
         <el-form-item>
@@ -94,7 +93,7 @@
           </el-col>
           <el-col :span="12">
             <el-form-item label="身份证号" prop="identityCode">
-              <el-input v-model="form.identityCode" placeholder="请输入身份证号码" 
+              <el-input v-model="form.identityCode" placeholder="请输入身份证号码"
                         maxlength="18" minlength="18"/>
             </el-form-item>
           </el-col>
@@ -165,7 +164,7 @@
 </template>
 
 <style>
-  
+
 </style>
 
 <script>
@@ -188,7 +187,7 @@
         statusOptions: ['正常', '停用'],
         //表单内容
         form: {},
-        userList: null,
+        userList: [],
         // 查询参数
         queryParams: {
           userName: '',
@@ -229,10 +228,11 @@
       /** 查询用户列表 */
       getList() {
         listUser(this.queryParams).then(response => {
-            // console.log(response);
+          if(response != null) {
             this.userList = response;
+            this.userList.gender = (this.userList.gender == '1' ? '男' : '女')
           }
-        );
+        });
       },
       /* 重置表单 */
       resetForm(formName) {

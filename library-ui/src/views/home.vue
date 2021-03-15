@@ -18,10 +18,10 @@
             <el-submenu index="1">
               <template slot="title"><i class="el-icon-user"></i>用户管理</template>
                 <el-menu-item index="1-1">
-                  <router-link to="/user/list" tag="div">用户列表</router-link>
+                  <router-link to="/user/list" tag="div">人员管理</router-link>
                 </el-menu-item>
                 <el-menu-item index="1-2">
-                  <router-link to="/user/add" tag="div">新增用户</router-link>
+                  <router-link to="/role/list" tag="div">角色管理</router-link>
                 </el-menu-item>
             </el-submenu>
           </el-menu>
