@@ -1,4 +1,4 @@
-import request from "./request";
+import request from "../util/request";
 
 //查询所用用户
 export function listUser(query){

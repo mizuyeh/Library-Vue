@@ -13,16 +13,6 @@
             @keyup.enter.native="handleQuery"
           />
         </el-form-item>
-        <el-form-item label="权限字符" prop="resources">
-          <el-input
-            v-model="queryParams.resources"
-            placeholder="请输入手机号码"
-            clearable
-            size="small"
-            style="width: 240px"
-            @keyup.enter.native="handleQuery"
-           />
-        </el-form-item>
         <el-form-item>
           <el-button @click="handleQuery" type="primary" icon="el-icon-search" size="mini" >搜索</el-button>
           <el-button @click="resetForm('queryParams')" icon="el-icon-refresh" size="mini">重置</el-button>
@@ -73,16 +63,6 @@
         </el-table-column>
         <el-table-column prop="resourceNamesStr" label="权限详情" width="180">
         </el-table-column>
-        <el-table-column label="状态" align="center" width="100">
-          <template slot-scope="scope">
-            <el-switch
-              v-model="scope.row.status"
-              active-value="0"
-              inactive-value="1"
-              @change="handleStatusChange(scope.row)"
-            ></el-switch>
-          </template>
-        </el-table-column>
         <el-table-column prop="createTime" label="创建时间" width="180">
         </el-table-column>
         <el-table-column prop="updateTime" label="上次修改时间" width="180">
@@ -99,14 +79,21 @@
           </el-form-item>
         </el-row>
         <el-row>
-          <el-form-item label="权限列表" prop="resources">
-            <el-input v-model="form.resources" placeholder="请选择权限" maxlength="11" />
+          <el-form-item label="权限列表" prop="resourceIds">
+            <el-select v-model="form.resourceIds" placeholder="请选择" multiple>
+              <el-option
+                v-for="item in options"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value">
+              </el-option>
+            </el-select>
           </el-form-item>
         </el-row>
         <el-row>
           <el-col :span="24">
             <el-form-item label="角色描述">
-              <el-input v-model="form.desc" type="textarea" placeholder="请输入角色描述"></el-input>
+              <el-input v-model="form.description" type="textarea" placeholder="请输入角色描述"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -122,7 +109,7 @@
 <script>
   import {listRole, getRole, addRole, updateRole, deleteRole} from '@/network/role';
   export default {
-    name: 'User',
+    name: 'role',
     data() {
       return {
         //列表选中数组
@@ -138,9 +125,27 @@
         roleList: [],
         // 查询参数
         queryParams: {
+          id: -1,
           roleName: '',
-          resources: '',
         },
+        //新增角色下拉菜单
+        options: [{
+          value: '1',
+          label: '超级管理'
+        }, {
+          value: '2',
+          label: '所有菜单新增'
+        }, {
+          value: '3',
+          label: '所有菜单删除'
+        }, {
+          value: '4',
+          label: '所有菜单修改'
+        }, {
+          value: '5',
+          label: '所有菜单查询'
+        }],
+        value: '',
         // 表单校验
         rules: {
           roleName: [
@@ -155,6 +160,7 @@
     methods: {
       /** 查询用户列表 */
       getList() {
+        console.log(this.queryParams);
         listRole(this.queryParams).then(response => {
           if(response != null) {
             this.roleList = response;
@@ -174,10 +180,10 @@
       reset() {
         this.form = {
           id: undefined,
-          RoleName: undefined,
-          desc: undefined,
-          resources: undefined,
-          status: "1",
+          roleName: '',
+          description: '',
+          resourceIds: '',
+          status: true,
         }
       },
       // 多选框选中数据
@@ -197,9 +203,8 @@
       handleUpdate() {
         this.reset();
         const roleId = this.ids[0];
-        getUser(roleId).then(response => {
+        getRole(roleId).then(response => {
           this.form = response;
-          this.form.gender='';
           this.open = true;
           this.title = "修改角色";
         });
@@ -228,13 +233,12 @@
         this.$refs["form"].validate(valid => {
           if (valid) {
             if (this.form.id != undefined) {
-              this.typeChange();
               updateRole(this.form).then(response => {
                 this.open = false;
                 this.getList();
               });
             } else {
-              this.typeChange();
+              this.form.resourceIds = this.form.resourceIds.join(",");
               console.log(this.form);
               addRole(this.form).then(response => {
                 this.open = false;

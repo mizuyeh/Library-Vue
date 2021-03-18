@@ -5,7 +5,7 @@ Vue.use(VueRouter)
 
 const routes = [
   {
-    path: '/',
+    path: '/home',
     name: '首页',
     component: () => import("@/views/home.vue"),
     children:[
@@ -21,6 +21,11 @@ const routes = [
       }
     ]
   },
+  {
+    path: '/',
+    name: '登录界面',
+    component: () => import('@/views/login.vue')
+  }
   
 ]
 

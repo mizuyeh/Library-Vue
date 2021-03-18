@@ -2,8 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.kickshaw.mapper.UserMapper">
     <select id="listUsers" parameterType="user" resultType="user">
-        select u.id, u.login_name, u.user_name, u.password, u.gender, u.identity_code,
-               u.email, u.mobile, u.status, u.file_name, u.create_time, u.update_time, u.remark
+        select u.id, u.user_name, u.password, u.salt, u.gender, u.identity_code,
+               u.email, u.mobile, u.status, u.avatar, u.create_time, u.update_time, u.remark
         from user u where u.id != 0
         <if test="userName != null and userName != ''">
             AND u.user_name like concat('%', #{userName}, '%')
@@ -11,5 +11,10 @@
         <if test="mobile != null and mobile != ''">
             AND u.mobile like concat('%', #{mobile}, '%')
         </if>
+    </select>
+
+    <select id="getByName" resultType="com.kickshaw.entity.User">
+        select u.id, u.user_name, u.password, u.salt, u.gender, u.identity_code, u.email, u.mobile, u.status, u.avatar, u.create_time, u.update_time, u.remark, u.role_id
+        from user u where u.user_name = #{username}
     </select>
 </mapper>

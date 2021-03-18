@@ -4,6 +4,7 @@ package com.kickshaw.controller;
 import com.kickshaw.entity.User;
 import com.kickshaw.service.UserService;
 import com.kickshaw.utils.RedisUtil;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,6 +28,7 @@ public class UserController {
     private RedisUtil redisUtil;
 
     @GetMapping("/list")
+    @RequiresPermissions("user:view")
     public List<User> list(User user) {
         String key = "user::" + user.hashCode();
         List<User> users = redisUtil.getCacheList(key);
@@ -40,6 +42,7 @@ public class UserController {
     }
 
     @GetMapping("/id/{id}")
+    @RequiresPermissions("user:view")
     public User findOneById(@PathVariable Integer id) {
         String key = "user::" + id;
         if(redisUtil.getCacheObject(key) != null) {
@@ -52,6 +55,7 @@ public class UserController {
     }
 
     @PostMapping("/save")
+    @RequiresPermissions("user:create")
     public boolean save(@RequestBody User user) {
         redisUtil.deletePattern("user*");
         System.err.println(user);
@@ -59,19 +63,16 @@ public class UserController {
     }
 
     @PutMapping("/update")
+    @RequiresPermissions("user:update")
     public boolean update(@RequestBody User user) {
         redisUtil.deletePattern("user*");
         return userService.updateById(user);
     }
 
     @DeleteMapping("/delete/{ids}")
+    @RequiresPermissions("user:delete")
     public boolean delete(@PathVariable Integer[] ids){
         redisUtil.deletePattern("user*");
         return userService.removeByIds(Arrays.asList(ids));
     }
-
- /*   @GetMapping("/test")
-    public String testDevtools() {
-        return "hha ";
-    }*/
 }

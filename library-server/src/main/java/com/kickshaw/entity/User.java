@@ -33,11 +33,6 @@ public class User implements Serializable {
     private Integer id;
 
     /**
-     * 登录名
-     */
-    private String loginName;
-
-    /**
      * 用户名
      */
     private String userName;
@@ -46,6 +41,11 @@ public class User implements Serializable {
      * 密码
      */
     private String password;
+
+    /**
+     * 随机盐
+     */
+    private String salt;
 
     /**
      * 性别(1:男 0：女)
@@ -72,7 +72,7 @@ public class User implements Serializable {
      */
     private Boolean status;
 
-    private String fileName;
+    private String avatar;
 
     @TableField(fill = FieldFill.INSERT)
     private Date createTime;
@@ -85,5 +85,5 @@ public class User implements Serializable {
      */
     private String remark;
 
-
+    private Integer roleId;
 }

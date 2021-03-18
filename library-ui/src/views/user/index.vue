@@ -112,11 +112,6 @@
         </el-row>
         <el-row>
           <el-col :span="12">
-            <el-form-item v-if="form.id == undefined" label="登录名" prop="loginName">
-              <el-input v-model="form.loginName" placeholder="请输入登录名" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
             <el-form-item v-if="form.id == undefined" label="用户密码" prop="password">
               <el-input v-model="form.password" placeholder="请输入用户密码" type="password" />
             </el-form-item>
@@ -198,9 +193,6 @@
           userName: [
             { required: true, message: "用户名称不能为空", trigger: "blur" }
           ],
-          loginName: [
-            { required: true, message: "登录名不能为空", trigger: "blur" }
-          ],
           password: [
             { required: true, message: "用户密码不能为空", trigger: "blur" }
           ],
@@ -249,7 +241,6 @@
           id: undefined,
           identityCode: undefined,
           userName: undefined,
-          loginName: undefined,
           password: undefined,
           mobile: undefined,
           email: undefined,

@@ -35,9 +35,8 @@ public class Role implements Serializable {
 
     private String resourceIds;
 
+    @TableField(exist = false)
     private List<String> resourceNames;
-
-    private String resourceNamesStr;
 
     private Boolean status;
 
@@ -46,27 +45,4 @@ public class Role implements Serializable {
 
     @TableField(fill = FieldFill.INSERT_UPDATE)
     private Date updateTime;
-
-    /**
-     * 将resourceIds转换为list集合
-     * @Param []
-     * @Return java.util.List<java.lang.Integer>
-     */
-    public List<Integer> getResourceIdsList() {
-        List<Integer> resourcesIdsList = new ArrayList<>();
-        if(!getResourceIds().isEmpty()) {
-            String[] ids = resourceIds.split(",");
-            for (String id : ids) {
-                resourcesIdsList.add(Integer.valueOf(id));
-            }
-        }
-        return resourcesIdsList;
-    }
-
-    /*public String getReourceNamesStr() {
-        if(!resourceNames.isEmpty()) {
-            resourceNamesStr = String.join("," , resourceNames);
-        }
-        return resourceNamesStr;
-    }*/
 }
