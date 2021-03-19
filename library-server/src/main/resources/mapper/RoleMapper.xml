@@ -5,9 +5,11 @@
     <select id="listRoles" parameterType="role" resultType="role">
         select r.id, r.role_name, r.description, r.resource_ids,
         r.status,  r.create_time, r.update_time
-        from role r where r.id != 0
-        <if test="roleName != null and roleName != ''">
-            AND r.role_name like concat('%', #{roleName}, '%')
-        </if>
+        from role r
+        <where>
+            <if test="roleName != null and roleName != ''">
+                AND r.role_name like concat('%', #{roleName}, '%')
+            </if>
+        </where>
     </select>
 </mapper>

@@ -24,7 +24,8 @@ public class SysController {
      * @return
      */
     @PostMapping("/register")
-    public JsonData<String> register(User user) {
+    public JsonData<String> register(@RequestBody User user) {
+        System.out.println("register: " + user);
         return sysService.register(user.getUserName(), user.getPassword());
     }
 

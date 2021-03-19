@@ -8,7 +8,6 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -71,8 +70,8 @@ public class UserController {
 
     @DeleteMapping("/delete/{ids}")
     @RequiresPermissions("user:delete")
-    public boolean delete(@PathVariable Integer[] ids){
+    public boolean delete(@PathVariable List<Integer> ids){
         redisUtil.deletePattern("user*");
-        return userService.removeByIds(Arrays.asList(ids));
+        return userService.removeByIds(ids);
     }
 }
